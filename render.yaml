@@ -1,0 +1,21 @@
+# Plano de Render: crea la web con disco permanente para la base de datos.
+services:
+  - type: web
+    name: statbet
+    runtime: docker
+    plan: starter
+    healthCheckPath: /healthz
+    autoDeploy: true
+    disk:
+      name: statbet-data
+      mountPath: /data
+      sizeGB: 2
+    envVars:
+      - key: DB_PATH
+        value: /data/statbet.db
+      - key: TRUST_PROXY
+        value: "1"
+      - key: BACKFILL_DAYS
+        value: "30"
+      - key: GEMINI_API_KEY
+        sync: false
