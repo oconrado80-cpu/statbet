@@ -1,5 +1,6 @@
 FROM node:22-slim AS build
 WORKDIR /app
+RUN apt-get update && apt-get install -y --no-install-recommends python3 make g++ ca-certificates && rm -rf /var/lib/apt/lists/*
 COPY package*.json ./
 RUN npm ci
 COPY . .
@@ -7,6 +8,7 @@ RUN npm run build
 
 FROM node:22-slim
 WORKDIR /app
+RUN apt-get update && apt-get install -y --no-install-recommends python3 make g++ ca-certificates && rm -rf /var/lib/apt/lists/*
 ENV NODE_ENV=production PORT=3000 DB_PATH=/data/statbet.db TRUST_PROXY=1
 COPY package*.json ./
 RUN npm ci
